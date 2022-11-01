@@ -22,7 +22,7 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-var TunnelType = "sing-tun"
+var TunnelType = "mrping-tun"
 
 type NativeTun struct {
 	adapter     *wintun.Adapter
@@ -37,6 +37,8 @@ type NativeTun struct {
 }
 
 func Open(options Options) (WinTun, error) {
+	wintun.Uninstall()
+
 	adapter, err := wintun.CreateAdapter(options.Name, TunnelType, generateGUIDByDeviceName(options.Name))
 	if err != nil {
 		return nil, err
